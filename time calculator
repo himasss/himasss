@@ -1,11 +1,57 @@
-def add_time(start, duration,wday = "na"):
-    
+def add_time(start, duration,wday = "Na"):
+
+    #standardizing days of the week  
     startingday = wday.title()
-    days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    sday_index = days_of_week.index(startingday)
+    
+    #standardizing times
+    stime, apm = start.split(' ')
+    shour, smin = stime.split(':')
+    dhour, dmin = duration.split(':')
 
+    added_days = 0
+    extra_hours = 0
 
+    if int(dhour) > 12:
+        added_days, decimal = str(int(dhour)/24).split('.')
+        extra_hours = 24*(float('0.'+ decimal))
 
+        if int(dhour)<12:
+            nhour = int(shour) + int(dhour)
+        elif int(dhour)<24:
+            nhour = int(shour) + (12 - int(dhour))
+    #days later
+        
+            if int(added_days) >= 1:
+                if wday == 'Na':
+                    eday = 'next day' if int(added_days) == 1 else f'({added_days} days later)'
+                else:
+                    days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
+                    sday_index = days_of_week.index(startingday)
+                    nday_index = ((sday_index + int(added_days)) % 7)
+                    eday = days_of_week[nday_index]
+
+                nhour = int(shour) + int(extra_hours)
+    
+    #adding times
+
+    dmin = int(dmin) 
+    if dmin == 60:
+        dmin = 0
+        nhour = int(shour) + 1
+    elif dmin > 60:
+        dmin -= 60
+
+    nmin = int(smin) + int(dmin) 
+    
+    if int(nhour) > 12:
+        nhour = nhour - 12
+
+    
+    #test print calls
+
+    print(nhour)
+    print(nmin)
+ 
     #return new_time
 
-add_time('6:30 PM','205:12', 'MonDay')
+add_time('3:30 PM','2:12','Monday')
