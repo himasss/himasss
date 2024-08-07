@@ -1,0 +1,11 @@
+def add_time(start, duration,wday = "na"):
+    
+    startingday = wday.title()
+    days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    sday_index = days_of_week.index(startingday)
+
+
+
+    #return new_time
+
+add_time('6:30 PM','205:12', 'MonDay')
