@@ -1,0 +1,57 @@
+def add_time(start, duration, wday = "na"):
+
+    #standardizing days of the week  
+    startingday = wday.title()
+    
+    #standardizing times
+    stime, apm = start.split(' ')
+    shour, smin = stime.split(':')
+    dhour, dmin = duration.split(':')
+
+    #calculating minutes
+    if int(dmin) == 60:
+        nmin1 = int(smin)
+        shour = int(shour) + 1
+    elif int(dmin) == 0:
+        nmin1 = int(smin)
+    else:
+        nmin1 = int(smin) + int(dmin)
+    if nmin1 >= 60:
+        nmin = nmin1 - 60
+    else:
+        nmin = int(nmin1)
+    if nmin < 10:
+        nmin = "0" + str(nmin)
+
+    print(f"minutes calculated: {nmin}") #checkpoint 
+
+    #calculating hour if less than 24: 
+    #convert to 24 hour time:
+    if apm == "PM" and int(shour) < 12:
+        a = int(shour)
+        shour = a + 12
+        print(f"minutes calculated: {shour}") #checkpoint
+    if int(dhour) == 24: 
+        nhour = shour
+        day = "next day"
+    elif int(dhour) < 24:
+        nhour = int(shour) +int(dhour)
+        if nhour > 24:
+            nhour -= 24
+            if nhour > 12:
+                nhour -= 12
+                
+    print(f"hours calculated: {nhour}") #checkpoint     
+
+
+
+
+
+    
+   
+
+        
+
+    #return new_time
+
+add_time('10:10 PM', '3:30')
