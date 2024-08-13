@@ -35,13 +35,19 @@ def add_time(start, duration, wday = "na"):
             nhour = nhour % 12
         if nhour == 0:
             nhour = 12
-        print(f"hours calculated: {nhour}") #checkpoint 
+    print(f"hours calculated: {nhour}") #checkpoint 
 
     #what if over 24 hours:
-    if dhour > 24:
-        number_of_days_added = nhour // 24
-        nhour = nhour % 24
+    if dhour > 24:        
+        number_of_days_added = dhour // 24
+        a = int((dhour / 24 - number_of_days_added)*24)
+        nhour += shour + a 
+        if nhour >= 12:
+            nhour = nhour % 12
+        if nhour == 0:
+            nhour = 12
         days_added = f"({number_of_days_added} days later)" if number_of_days_added > 1 else "(next day)"
+        print(nhour)
 
 
     elif dhour == 24:
@@ -74,7 +80,7 @@ def add_time(start, duration, wday = "na"):
     if days_added:
         new_time += " " + str(days_added)
     
-    print(new_time)
+    return new_time
     
   
 
