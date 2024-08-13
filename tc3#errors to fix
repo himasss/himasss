@@ -8,6 +8,9 @@ def add_time(start, duration, wday = "na"):
     shour, smin = map(int,stime.split(':'))
     dhour, dmin = map(int,duration.split(':'))
     nhour = 0
+    days_added = ""
+    number_of_days_added = 0
+    eday = ""
 
     #convert to 24 hour time:
     if apm == "PM" and shour < 12:
@@ -28,9 +31,28 @@ def add_time(start, duration, wday = "na"):
     #calculating hour if less than 24: 
     if dhour <= 24:
         nhour += (shour + dhour)
-        if nhour >= 24:
-            nhour = nhour % 24
-    print(f"hours calculated: {nhour}") #checkpoint 
+        if nhour >= 12:
+            nhour = nhour % 12
+        if nhour == 0:
+            nhour = 12
+        print(f"hours calculated: {nhour}") #checkpoint 
+
+    #what if over 24 hours:
+    if dhour > 24:
+        number_of_days_added = nhour // 24
+        nhour = nhour % 24
+        days_added = f"({number_of_days_added} days later)" if number_of_days_added > 1 else "(next day)"
+
+
+    elif dhour == 24:
+        days_added = "Next Day"
+
+    if wday != "na" and number_of_days_added:
+        days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
+        sday_index = days_of_week.index(startingday)
+        nday_index = ((sday_index + int(number_of_days_added)) % 7)
+        eday = days_of_week[nday_index]
+        print(eday)
     
     #determining am or pm
     a = 1 if apm == "AM" else 2
@@ -42,9 +64,18 @@ def add_time(start, duration, wday = "na"):
         fapm = "PM"
     else: 
         fapm = "AM"
+    print(fapm) #checkpoint
 
-    print(fapm)
+    #prints
+    new_time = str(nhour)+":"+str(nmin)+", "+ fapm
     
-    #return new_time
+    if wday != "na":
+        new_time += ", " + str(eday)
+    if days_added:
+        new_time += " " + str(days_added)
+    
+    print(new_time)
+    
+  
 
-add_time('11:50 PM', '00:10')
+add_time('6:30 PM', '205:12',"tuesday")
