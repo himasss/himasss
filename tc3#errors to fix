@@ -15,7 +15,7 @@ def add_time(start, duration, wday = "na"):
     #convert to 24 hour time:
     if apm == "PM" and shour < 12:
         shour += 12
-    print(f"24 hour time calculated: {shour}") #checkpoint
+
 
     #calculating minutes
     nmin = dmin + smin
@@ -25,7 +25,7 @@ def add_time(start, duration, wday = "na"):
         nhour += add_hour
     if nmin < 10:
         nmin = "0" + str(nmin)
-    print(f"minutes calculated: {nmin}") #checkpoint 
+
 
 
     #calculating hour if less than 24: 
@@ -35,53 +35,43 @@ def add_time(start, duration, wday = "na"):
             nhour = nhour % 12
         if nhour == 0:
             nhour = 12
-    print(f"hours calculated: {nhour}") #checkpoint 
 
     #what if over 24 hours:
     if dhour > 24:        
         number_of_days_added = dhour // 24
-        a = int((dhour / 24 - number_of_days_added)*24)
-        nhour += shour + a 
+        nhour = dhour%24 + shour
         if nhour >= 12:
             nhour = nhour % 12
         if nhour == 0:
             nhour = 12
         days_added = f"({number_of_days_added} days later)" if number_of_days_added > 1 else "(next day)"
-        print(nhour)
 
 
     elif dhour == 24:
-        days_added = "Next Day"
+        days_added = "(next day)"
 
-    if wday != "na" and number_of_days_added:
+    if wday != "na":
         days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday']
         sday_index = days_of_week.index(startingday)
         nday_index = ((sday_index + int(number_of_days_added)) % 7)
         eday = days_of_week[nday_index]
-        print(eday)
     
     #determining am or pm
-    a = 1 if apm == "AM" else 2
-    time_from_12 = 12 - shour
-    if (nhour-shour) >= time_from_12:
-        new = 12 // 10
-        a += new
-    if a%2 == 0:
+    if nhour >= 12:
         fapm = "PM"
-    else: 
+    else:
         fapm = "AM"
-    print(fapm) #checkpoint
+    nhour = nhour % 12
+    if nhour == 0:
+        nhour = 12
 
     #prints
-    new_time = str(nhour)+":"+str(nmin)+", "+ fapm
-    
+    new_time = f"{nhour}:{nmin} {fapm}"
     if wday != "na":
-        new_time += ", " + str(eday)
+        new_time += f", {eday}"
     if days_added:
-        new_time += " " + str(days_added)
-    
-    return new_time
-    
-  
+        new_time += f" {days_added}"
+    print(new_time)
 
-add_time('6:30 PM', '205:12',"tuesday")
+
+add_time('2:59 AM', '24:00', 'saturDay')
